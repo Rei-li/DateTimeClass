@@ -9,6 +9,7 @@ constructor Create(Milisecunds: Integer) или constructor Create(Year, Month, 
 В классе присутствуют методы для проведения арифметических операций(сложение, вычетание) с хранимым значением:
 
  методы  :
+ 
 	procedure AddYears(Years: Integer);
 	procedure AddMonth(Months: Integer);procedure AddDays(Days: Integer);
 	procedure AddHours(Hours: Integer);
@@ -17,6 +18,7 @@ constructor Create(Milisecunds: Integer) или constructor Create(Year, Month, 
    	 procedure AddMillisecunds(Millisecundss: Integer),
    	 
 позволяют добавить временное значение в соответствующих единицах к хранимому значений, 
+
 а методы:
 
 	 procedure SubtractYears(Years: Integer);
@@ -26,7 +28,7 @@ constructor Create(Milisecunds: Integer) или constructor Create(Year, Month, 
   	 procedure SubtractMinuts(Minuts: Integer);
   	 procedure SubtractSecunds(Secunds: Integer);
   	 procedure SubtractMillisecunds(Millisecunds: Integer),
-уменьшить хранимое значение на указанную величину.
+позволяют уменьшить хранимое значение на указанную величину.
  
 
 Во время выполнения программы действует цикл с постоянным предложением ввода данных.
