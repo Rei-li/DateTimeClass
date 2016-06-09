@@ -1,4 +1,4 @@
-program Project1;
+program DateTimeClass;
 
 {$APPTYPE CONSOLE}
 {$R *.res}
