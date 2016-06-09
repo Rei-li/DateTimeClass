@@ -1,4 +1,4 @@
-program DateTimeClass;
+﻿program DateTimeClass;
 
 {$APPTYPE CONSOLE}
 {$R *.res}
@@ -44,6 +44,7 @@ type
     procedure SubtractSecunds(Secunds: Integer);
     procedure SubtractMillisecunds(Millisecunds: Integer);
 
+    function GetFullTime: string;
     function GetDateAndTime: string;
 
     property Year: Integer read GetYear;
@@ -58,6 +59,7 @@ type
       Milisecunds: Integer); overload;
     constructor Create(Milisecunds: Integer); overload;
     constructor Create(Year, Month, Days: Integer); overload;
+    constructor CreateFromDate(Year, Month, Days: Integer);
   end;
 
 procedure CustomTimeClass.AddYears(Years: Integer);
@@ -171,7 +173,7 @@ end;
 
 function CustomTimeClass.GetHours;
 begin
-   if self.fFullTimeInMillisec > 0 then
+  if self.fFullTimeInMillisec > 0 then
     Result := (self.fFullTimeInMillisec mod CustomTimeClass.MillisecInDay)
       div CustomTimeClass.MillisecInHour
   else
@@ -205,12 +207,20 @@ begin
     Result := 0;
 end;
 
-function CustomTimeClass.GetDateAndTime;
+function CustomTimeClass.GetFullTime;
 begin
   Result := 'Years ' + self.GetYear.ToString + ' | Month ' +
     self.GetMonth.ToString + ' | Day ' + self.GetDay.ToString + ' | Hour ' +
     GetHours.ToString + ' | Minutes ' + self.GetMinutes.ToString + ' | Secunds '
     + GetSecunds.ToString;
+end;
+
+function CustomTimeClass.GetDateAndTime;
+begin
+  Result := 'Years ' + (self.GetYear+1).ToString + ' | Month ' +
+    (self.GetMonth+1).ToString + ' | Day ' + (self.GetDay+1).ToString + ' | Hour ' +
+    self.GetHours.ToString + ' | Minutes ' + self.GetMinutes.ToString + ' | Secunds '
+    + self.GetSecunds.ToString;
 end;
 
 constructor CustomTimeClass.Create(Year, Month, Day, Hour, Minutes, Secunds,
@@ -232,6 +242,14 @@ begin
   self.fFullTimeInMillisec := (Year) * MillisecInYears + (Month) *
     MillisecInMonth + Days * MillisecInDay;
 end;
+
+      constructor CustomTimeClass.CreateFromDate(Year, Month, Days: Integer);
+begin
+
+  self.fFullTimeInMillisec := (Year-1) * MillisecInYears + (Month-1) *
+    MillisecInMonth + (Days-1) * MillisecInDay;
+end;
+
 
 var
   Date: CustomTimeClass;
@@ -283,7 +301,8 @@ begin
     begin
       Writeln('Выберите формат ввода данных 1-- |Year, Month, Day, Hour, Minutes, Secunds,Milisecunds|');
       Writeln('2-- |Year, Month, Day|');
-      Writeln('3--|Milisecunds|  (что бы выйти нажмите любую другую клавишу)');
+      Writeln('3--|Milisecunds| ');
+      Writeln('4-- ввод календарной даты |Year, Month, Day| (что бы выйти нажмите любую другую клавишу)');
       Read(Input);
 
       case Input of
@@ -306,6 +325,12 @@ begin
             Writeln('Введите--|Milisecunds| ');
             Read(Input);
             Date := CustomTimeClass.Create(Input);
+          end;
+          4:
+          begin
+            Writeln('Введите значение даты в следующей последовательности-- |Year, Month, Day|');
+            ReadArguments(3);
+            Date := CustomTimeClass.CreateFromDate(Args[1], Args[2], Args[3]);
           end;
       else
         break;
@@ -370,6 +395,7 @@ begin
             begin
               WriteMenuTimeInterval();
               Writeln('8 -- строковое представление даты ');
+              Writeln('9 -- строковое представление календарной даты ');
               Read(Input);
               case Input of
                 1:
@@ -387,6 +413,8 @@ begin
                 7:
                   Writeln(Date.Year);
                 8:
+                  Writeln(Date.GetFullTime);
+                9:
                   Writeln(Date.GetDateAndTime);
               else
                 break;
