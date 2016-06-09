@@ -1,4 +1,4 @@
-program DateTimeClass;
+program Project1;
 
 {$APPTYPE CONSOLE}
 {$R *.res}
@@ -9,15 +9,15 @@ uses
 type
   CustomTimeClass = class
   const
-    MillisecInYears = 31104000000; // 60*60000*24*30*12;
-    MillisecInMonth = 2592000000; // 60*60000*24*30;
-    MillisecInDay = 86400000; // 60*60000*24;
-    MillisecInHour = 3600000; // 60*60000
-    MillisecInMinutes = 60000; // 60*1000
-    MillisecInSecunds = 1000;
+    MillisecInYears: Int64 = 31104000000; // 60*60000*24*30*12;
+    MillisecInMonth: Int64 = 2592000000; // 60*60000*24*30;
+    MillisecInDay: Int64 = 86400000; // 60*60000*24;
+    MillisecInHour: Int64 = 3600000; // 60*60000
+    MillisecInMinutes: Int64 = 60000; // 60*1000
+    MillisecInSecunds: Int64 = 1000;
 
   private
-    fFullTimeInMillisec: int64;
+    fFullTimeInMillisec: Int64;
     function GetYear: Integer;
     function GetMonth: Integer;
     function GetDay: Integer;
@@ -57,7 +57,7 @@ type
     constructor Create(Year, Month, Day, Hour, Minutes, Secunds,
       Milisecunds: Integer); overload;
     constructor Create(Milisecunds: Integer); overload;
-    constructor Create(Year, Month, Day: Integer); overload;
+    constructor Create(Year, Month, Days: Integer); overload;
   end;
 
 procedure CustomTimeClass.AddYears(Years: Integer);
@@ -171,7 +171,7 @@ end;
 
 function CustomTimeClass.GetHours;
 begin
-  if self.fFullTimeInMillisec > 0 then
+   if self.fFullTimeInMillisec > 0 then
     Result := (self.fFullTimeInMillisec mod CustomTimeClass.MillisecInDay)
       div CustomTimeClass.MillisecInHour
   else
@@ -219,17 +219,18 @@ begin
   self.fFullTimeInMillisec := Year * MillisecInYears + Month * MillisecInMonth +
     Day * MillisecInDay + Hour * MillisecInHour + Minutes * MillisecInMinutes +
     Secunds * MillisecInSecunds + Milisecunds;
- end;
+end;
 
 constructor CustomTimeClass.Create(Milisecunds: Integer);
 begin
   self.fFullTimeInMillisec := Milisecunds;
 end;
 
-constructor CustomTimeClass.Create(Year, Month, Day: Integer);
+constructor CustomTimeClass.Create(Year, Month, Days: Integer);
 begin
-  self.fFullTimeInMillisec := Year * MillisecInYears + Month * MillisecInMonth +
-    Day * MillisecInDay;
+
+  self.fFullTimeInMillisec := (Year) * MillisecInYears + (Month) *
+    MillisecInMonth + Days * MillisecInDay;
 end;
 
 var
@@ -240,7 +241,7 @@ var
 procedure ReadArguments(ArgNumber: Integer);
 var
   ArgsCount: Integer;
-  Inp: int64;
+  Inp: Int64;
 begin
   ArgsCount := 1;
   While (ArgsCount <= ArgNumber) do
@@ -259,20 +260,20 @@ end;
 procedure WriteMenuTimeInterval();
 
 begin
-  WriteLn('Âûáåðèòå åäèíèöû èçìåðåíèÿ ');
-  WriteLn('1 -- millisec ');
-  WriteLn('2 -- sec ');
-  WriteLn('3 -- minutes');
-  WriteLn('4 -- hours ');
-  WriteLn('5 -- days ');
-  WriteLn('6 -- monthes');
-  WriteLn('7 -- years ');
+  Writeln('Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ ÐµÐ´Ð¸Ð½Ð¸Ñ†Ñ‹ Ð¸Ð·Ð¼ÐµÑ€ÐµÐ½Ð¸Ñ ');
+  Writeln('1 -- millisec ');
+  Writeln('2 -- sec ');
+  Writeln('3 -- minutes');
+  Writeln('4 -- hours ');
+  Writeln('5 -- days ');
+  Writeln('6 -- monthes');
+  Writeln('7 -- years ');
 
 end;
 
 function ReadInputTimeInterval: Integer;
 begin
-  WriteLn('Âââåäèòå çíà÷åíèå âðåìåííîãî èíòåðâàëà');
+  Writeln('Ð’Ð²Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð²Ñ€ÐµÐ¼ÐµÐ½Ð½Ð¾Ð³Ð¾ Ð¸Ð½Ñ‚ÐµÑ€Ð²Ð°Ð»Ð°');
   Read(Result);
 end;
 
@@ -280,15 +281,15 @@ begin
   try
     while True do
     begin
-      WriteLn('Âûáåðèòå ôîðìàò ââîäà äàííûõ 1-- |Year, Month, Day, Hour, Minutes, Secunds,Milisecunds|');
-      WriteLn('2-- |Year, Month, Day|');
-      WriteLn('3--|Milisecunds|  (÷òî áû âûéòè íàæìèòå ëþáóþ äðóãóþ êëàâèøó)');
+      Writeln('Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚ Ð²Ð²Ð¾Ð´Ð° Ð´Ð°Ð½Ð½Ñ‹Ñ… 1-- |Year, Month, Day, Hour, Minutes, Secunds,Milisecunds|');
+      Writeln('2-- |Year, Month, Day|');
+      Writeln('3--|Milisecunds|  (Ñ‡Ñ‚Ð¾ Ð±Ñ‹ Ð²Ñ‹Ð¹Ñ‚Ð¸ Ð½Ð°Ð¶Ð¼Ð¸Ñ‚Ðµ Ð»ÑŽÐ±ÑƒÑŽ Ð´Ñ€ÑƒÐ³ÑƒÑŽ ÐºÐ»Ð°Ð²Ð¸ÑˆÑƒ)');
       Read(Input);
 
       case Input of
         1:
           begin
-            WriteLn('Ââåäèòå â ñëåäóþùåé ïîñëåäîâàòåëüíîñòè-- |Year, Month, Day, Hour, Minutes, Secunds,Milisecunds|');
+            Writeln('Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð² ÑÐ»ÐµÐ´ÑƒÑŽÑ‰ÐµÐ¹ Ð¿Ð¾ÑÐ»ÐµÐ´Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚Ð¸-- |Year, Month, Day, Hour, Minutes, Secunds,Milisecunds|');
             ReadArguments(7);
             Date := CustomTimeClass.Create(Args[1], Args[2], Args[3], Args[4],
               Args[5], Args[6], Args[7]);
@@ -296,13 +297,13 @@ begin
 
         2:
           begin
-            WriteLn('Ââåäèòå â ñëåäóþùåé ïîñëåäîâàòåëüíîñòè-- |Year, Month, Day|');
+            Writeln('Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð² ÑÐ»ÐµÐ´ÑƒÑŽÑ‰ÐµÐ¹ Ð¿Ð¾ÑÐ»ÐµÐ´Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚Ð¸-- |Year, Month, Day|');
             ReadArguments(3);
             Date := CustomTimeClass.Create(Args[1], Args[2], Args[3]);
           end;
         3:
           begin
-            WriteLn('Ââåäèòå--|Milisecunds| ');
+            Writeln('Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ--|Milisecunds| ');
             Read(Input);
             Date := CustomTimeClass.Create(Input);
           end;
@@ -311,10 +312,10 @@ begin
       end;
       while True do
       begin
-        WriteLn('Âûáåðèòå æåëàåìóþ îïåðàöèþ 1-- äîáàâëåíèå âðåìåííîãî îòðåçêà');
-        WriteLn('2-- âû÷èòàíèå âðåìåííîãî îòðåçêà');
-        WriteLn('3--âûâîä äàííûõ');
-        WriteLn('îñòàëüíûå--ïåðåçàïèñü äàííûõ äàííûõ');
+        Writeln('Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ð¶ÐµÐ»Ð°ÐµÐ¼ÑƒÑŽ Ð¾Ð¿ÐµÑ€Ð°Ñ†Ð¸ÑŽ 1-- Ð´Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ Ð²Ñ€ÐµÐ¼ÐµÐ½Ð½Ð¾Ð³Ð¾ Ð¾Ñ‚Ñ€ÐµÐ·ÐºÐ°');
+        Writeln('2-- Ð²Ñ‹Ñ‡Ð¸Ñ‚Ð°Ð½Ð¸Ðµ Ð²Ñ€ÐµÐ¼ÐµÐ½Ð½Ð¾Ð³Ð¾ Ð¾Ñ‚Ñ€ÐµÐ·ÐºÐ°');
+        Writeln('3--Ð²Ñ‹Ð²Ð¾Ð´ Ð´Ð°Ð½Ð½Ñ‹Ñ…');
+        Writeln('Ð¾ÑÑ‚Ð°Ð»ÑŒÐ½Ñ‹Ðµ--Ð¿ÐµÑ€ÐµÐ·Ð°Ð¿Ð¸ÑÑŒ Ð´Ð°Ð½Ð½Ñ‹Ñ… Ð´Ð°Ð½Ð½Ñ‹Ñ…');
         Read(Input);
         case Input of
           1:
@@ -368,25 +369,25 @@ begin
           3:
             begin
               WriteMenuTimeInterval();
-              WriteLn('8 -- ñòðîêîâîå ïðåäñòàâëåíèå äàòû ');
+              Writeln('8 -- ÑÑ‚Ñ€Ð¾ÐºÐ¾Ð²Ð¾Ðµ Ð¿Ñ€ÐµÐ´ÑÑ‚Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ Ð´Ð°Ñ‚Ñ‹ ');
               Read(Input);
               case Input of
                 1:
-                  WriteLn(Date.Millisecunds);
+                  Writeln(Date.Millisecunds);
                 2:
-                  WriteLn(Date.Secunds);
+                  Writeln(Date.Secunds);
                 3:
-                  WriteLn(Date.Minutes);
+                  Writeln(Date.Minutes);
                 4:
-                  WriteLn(Date.Hour);
+                  Writeln(Date.Hour);
                 5:
-                  WriteLn(Date.Day);
+                  Writeln(Date.Day);
                 6:
-                  WriteLn(Date.Month);
+                  Writeln(Date.Month);
                 7:
-                  WriteLn(Date.Year);
+                  Writeln(Date.Year);
                 8:
-                  WriteLn(Date.GetDateAndTime);
+                  Writeln(Date.GetDateAndTime);
               else
                 break;
               end;
@@ -398,7 +399,7 @@ begin
     end;
   except
     on E: Exception do
-      WriteLn(E.ClassName, ': ', E.Message);
+      Writeln(E.ClassName, ': ', E.Message);
   end;
 
 end.
